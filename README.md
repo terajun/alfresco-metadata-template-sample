@@ -1,0 +1,2 @@
+# alfresco-metadata-template-sample
+第28回Alfresco勉強会で紹介したメタデータテンプレートのサンプルコードです。
