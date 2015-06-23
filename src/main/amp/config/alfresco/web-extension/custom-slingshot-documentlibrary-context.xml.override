@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+    <bean id="evaluator.doclib.metadata.hasExif" class="org.alfresco.web.evaluator.HasAspectEvaluator">
+        <property name="aspects">
+            <list>
+                <value>exif:exif</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="evaluator.doclib.metadata.doesNotHaveExif" class="org.alfresco.web.evaluator.HasAspectEvaluator">
+        <property name="aspects">
+            <list>
+                <value>exif:exif</value>
+            </list>
+        </property>
+        <property name="negateOutput" value="true" />
+    </bean>
+    <bean id="evaluator.doclib.metadata.isNotWorkingCopy" parent="evaluator.doclib.metadata.value">
+      <property name="accessor" value="workingCopy.isWorkingCopy" />
+      <property name="comparator">
+         <bean class="org.alfresco.web.evaluator.StringEqualsComparator">
+            <property name="value" value="true" />
+         </bean>
+      </property>
+      <property name="negateOutput" value="true" />
+   </bean>
+    <bean id="evaluator.doclib.metadata.isWorkingCopyWithoutExif" class="org.alfresco.web.evaluator.ChainedMatchAllEvaluator">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.metadata.isWorkingCopy" />
+            <ref bean="evaluator.doclib.metadata.doesNotHaveExif" />
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.metadata.isWorkingCopyWithExif" class="org.alfresco.web.evaluator.ChainedMatchAllEvaluator">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.metadata.isWorkingCopy" />
+            <ref bean="evaluator.doclib.metadata.hasExif" />
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.metadata.isNotWorkingCopyWithExif" class="org.alfresco.web.evaluator.ChainedMatchAllEvaluator">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.metadata.isNotWorkingCopy" />
+            <ref bean="evaluator.doclib.metadata.hasExif" />
+         </list>
+      </property>
+   </bean>
+</beans>

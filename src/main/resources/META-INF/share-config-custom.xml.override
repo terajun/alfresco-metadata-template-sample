@@ -1,0 +1,51 @@
+<!-- Share configuration related to this particular Share module extension, such as: - Doclib action config - Form config - Aspect and Type config Note. Any configuration related to 
+    the whole Share.war webapp (i.e. not specific to this share extension) should be placed in the environment specific config: alfresco/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml 
+    file -->
+<alfresco-config>
+    <config evaluator="string-compare" condition="DocumentLibrary">
+        <metadata-templates>
+            <!-- isWorkingCopyテンプレートを無効化 -->
+            <template id="isWorkingCopy">
+                <evaluator>evaluator.doclib.action.disableAction
+                </evaluator>
+            </template>
+            <!-- EXIFアスペクトあり -->
+            <template id="isNotWorkingCopyWithExif">
+                <evaluator>evaluator.doclib.metadata.isNotWorkingCopyWithExif
+                </evaluator>
+                <line index="10" id="date">{date}{size}</line>
+                <line index="20" id="exif_pixelDimension">{exif_pixelXDimension label.exif_pixelXDimension} {exif_pixelYDimension label.exif_pixelYDimension}
+                </line>
+                <line index="30" id="exif_exposureTime" view="detailed">{exif_exposureTime label.exif_exposureTime}</line>
+                <line index="40" id="exif_fNumber" view="detailed">{exif_fNumber label.exif_fNumber}</line>
+                <line index="50" id="tags" view="detailed">{tags}</line>
+                <line index="60" id="categories" view="detailed" evaluator="evaluator.doclib.metadata.hasCategories">{categories}</line>
+                <line index="70" id="social" view="detailed">{social}</line>
+            </template>
+            <!-- EXIFアスペクトありのWorkingCopy -->
+            <template id="isWorkingCopyWithExif">
+                <evaluator>evaluator.doclib.metadata.isWorkingCopyWithExif
+                </evaluator>
+                <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+                <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+                <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+                <line index="10" id="date">{date}{size}</line>
+                <line index="20" id="exif_pixelDimension">{exif_pixelXDimension label.exif_pixelXDimension} {exif_pixelYDimension label.exif_pixelYDimension}
+                </line>
+                <line index="30" id="exif_exposureTime" view="detailed">{exif_exposureTime label.exif_exposureTime}</line>
+                <line index="40" id="exif_fNumber" view="detailed">{exif_fNumber label.exif_fNumber}</line>
+            </template>
+            <!-- EXIFアスペクトなしのWorkingCopy -->
+            <template id="isWorkingCopyWithoutExif">
+                <evaluator>evaluator.doclib.metadata.isWorkingCopyWithoutExif
+                </evaluator>
+                <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+                <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+                <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+                <line index="10" id="date">{date}{size}</line>
+                <line index="20" id="description" view="detailed">{description}
+                </line>
+            </template>
+        </metadata-templates>
+    </config>
+</alfresco-config>

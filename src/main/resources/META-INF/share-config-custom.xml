@@ -1,0 +1,21 @@
+<!-- Share configuration related to this particular Share module extension, such as: - Doclib action config - Form config - Aspect and Type config Note. Any configuration related to 
+    the whole Share.war webapp (i.e. not specific to this share extension) should be placed in the environment specific config: alfresco/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml 
+    file -->
+<alfresco-config>
+    <config evaluator="string-compare" condition="DocumentLibrary">
+        <metadata-templates>
+            <!-- EXIFアスペクトあり -->
+            <template id="isPhoto">
+                <evaluator>evaluator.doclib.metadata.hasExif</evaluator>
+                <line index="10" id="date">{date}{size}</line>
+                <line index="20" id="exif_pixelDimension">{exif_pixelXDimension label.exif_pixelXDimension} {exif_pixelYDimension label.exif_pixelYDimension}
+                </line>
+                <line index="30" id="exif_exposureTime" view="detailed">{exif_exposureTime label.exif_exposureTime}</line>
+                <line index="40" id="exif_fNumber" view="detailed">{exif_fNumber label.exif_fNumber}</line>
+                <line index="50" id="tags" view="detailed">{tags}</line>
+                <line index="60" id="categories" view="detailed" evaluator="evaluator.doclib.metadata.hasCategories">{categories}</line>
+                <line index="70" id="social" view="detailed">{social}</line>
+            </template>
+        </metadata-templates>
+    </config>
+</alfresco-config>
